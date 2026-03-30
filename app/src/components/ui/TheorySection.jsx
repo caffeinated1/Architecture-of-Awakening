@@ -80,6 +80,11 @@ const styles = {
   tableRow: {
     transition: 'background 0.2s ease',
   },
+  tableWrap: {
+    width: '100%',
+    overflowX: 'auto',
+    WebkitOverflowScrolling: 'touch',
+  },
   tableCell: {
     padding: '0.65rem 1rem',
     fontSize: '0.85rem',
@@ -199,9 +204,12 @@ function TheorySection({ keyConcepts = [], feelingsMap = [], conditions = [] }) 
   }, []);
 
   const gridStyle = isMobile ? styles.singleColumn : styles.grid;
+  const containerStyle = isMobile
+    ? { ...styles.container, padding: `${theme.spacing.md} ${theme.spacing.sm}` }
+    : styles.container;
 
   return (
-    <div style={styles.container}>
+    <div style={containerStyle}>
       {/* Main two-column: explanation + concepts */}
       <div style={gridStyle}>
         {/* Left: Text explanation */}
@@ -225,6 +233,7 @@ function TheorySection({ keyConcepts = [], feelingsMap = [], conditions = [] }) 
           {feelingsMap.length > 0 && (
             <div>
               <div style={styles.label}>Feelings as Potentials</div>
+              <div style={styles.tableWrap}>
               <table style={styles.table}>
                 <thead>
                   <tr>
@@ -253,6 +262,7 @@ function TheorySection({ keyConcepts = [], feelingsMap = [], conditions = [] }) 
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           )}
         </div>
@@ -279,7 +289,10 @@ function TheorySection({ keyConcepts = [], feelingsMap = [], conditions = [] }) 
           <div style={styles.label}>Three Conditions for Consciousness</div>
           <div style={styles.conditionsGrid}>
             {conditions.map((condition, index) => (
-              <div key={condition.title ?? index} style={styles.conditionCard(index)}>
+              <div key={condition.title ?? index} style={{
+                ...styles.conditionCard(index),
+                ...(isMobile ? { padding: '1rem', gap: '0.75rem' } : {}),
+              }}>
                 <span style={styles.conditionNumber}>{index + 1}</span>
                 <div style={styles.conditionContent}>
                   <h4 style={styles.conditionTitle}>{condition.title}</h4>

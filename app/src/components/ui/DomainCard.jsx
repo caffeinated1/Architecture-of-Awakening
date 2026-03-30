@@ -1,6 +1,8 @@
 import React, { memo, useState, useRef, useEffect } from 'react';
 import theme from '../../styles/theme';
 
+const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
 const makeStyles = (color, isActive) => ({
   card: {
     position: 'relative',
@@ -10,7 +12,7 @@ const makeStyles = (color, isActive) => ({
     border: `1px solid ${isActive ? color + '44' : theme.colors.textMuted + '15'}`,
     borderLeft: `3px solid ${isActive ? color : color + '55'}`,
     borderRadius: '12px',
-    padding: '1.75rem 2rem',
+    padding: isMobile ? '1.25rem 1rem' : '1.75rem 2rem',
     cursor: 'pointer',
     backdropFilter: 'blur(16px)',
     transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -26,7 +28,7 @@ const makeStyles = (color, isActive) => ({
   name: {
     fontFamily: theme.fonts.heading,
     fontWeight: 500,
-    fontSize: '1.5rem',
+    fontSize: isMobile ? '1.2rem' : '1.5rem',
     color: color,
     margin: 0,
     letterSpacing: '0.01em',

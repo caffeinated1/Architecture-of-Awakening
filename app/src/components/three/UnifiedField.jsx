@@ -114,7 +114,8 @@ function MergedGlow({ merged, intensity }) {
 // ── Explosion particles ─────────────────────────────────────────────
 function ExplosionParticles({ merged, intensity }) {
   const meshRef = useRef();
-  const count = 3000;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const count = isMobile ? 1000 : 3000;
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const wasmergedRef = useRef(false);
   const birthTimeRef = useRef(0);

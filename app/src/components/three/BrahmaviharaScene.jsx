@@ -50,6 +50,8 @@ function HeartCenter({ intensity }) {
 
 // ── Inner scene (rendered inside the Canvas) ────────────────────────
 function SceneContent({ activeIndex = 0, intensity = 1 }) {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <>
       {/* Lighting */}
@@ -65,7 +67,7 @@ function SceneContent({ activeIndex = 0, intensity = 1 }) {
         const isActive = activeIndex === 0 || activeIndex === domainIndex;
         const fieldOpacity = isActive ? 0.7 * intensity : 0.1;
         const fieldSpeed = isActive ? 0.3 : 0.08;
-        const fieldCount = isActive ? 2000 : 600;
+        const fieldCount = isActive ? (isMobile ? 800 : 2000) : (isMobile ? 300 : 600);
 
         return (
           <ParticleField

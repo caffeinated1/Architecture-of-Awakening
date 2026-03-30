@@ -5,7 +5,8 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
 // ── Grid dimensions ─────────────────────────────────────────────────
-const GRID = 64;        // vertices per side
+const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 768;
+const GRID = IS_MOBILE ? 32 : 64;  // vertices per side
 const EXTENT = 6;       // world-space half-width
 const STEP = (EXTENT * 2) / (GRID - 1);
 
@@ -138,7 +139,7 @@ function InnerSurface({ unified }) {
 // ── Gradient-following particle streams ─────────────────────────────
 function GradientParticles({ unified }) {
   const meshRef = useRef();
-  const count = 400;
+  const count = IS_MOBILE ? 200 : 400;
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const particles = useMemo(() => {

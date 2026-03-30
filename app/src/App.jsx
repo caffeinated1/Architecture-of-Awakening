@@ -1,4 +1,4 @@
-import { useState, useCallback, Suspense } from 'react'
+import { useState, useCallback, useEffect, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Navigation from './components/layout/Navigation'
 import SectionWrapper from './components/layout/SectionWrapper'
@@ -33,13 +33,28 @@ const SECTION_LABELS = [
   'Liberation',
 ]
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpoint}px)`)
+    setIsMobile(mql.matches)
+    const handler = (e) => setIsMobile(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
+  }, [breakpoint])
+  return isMobile
+}
+
 function App() {
+  const isMobile = useIsMobile()
   const [activeSection, setActiveSection] = useState(0)
   const [activeDomain, setActiveDomain] = useState(0)
   const [activeJhana, setActiveJhana] = useState(0)
   const [activePhase, setActivePhase] = useState(1)
   const [consciousnessUnified, setConsciousnessUnified] = useState(false)
   const [liberationMerged, setLiberationMerged] = useState(false)
+
+  const styles = getStyles(isMobile)
 
   const handleSectionVisible = useCallback((id) => {
     const idx = SECTIONS.indexOf(id)
@@ -217,24 +232,26 @@ function App() {
   )
 }
 
-const styles = {
+function getStyles(isMobile) { return {
   splitSection: {
     display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
     width: '100%',
     minHeight: '100vh',
     alignItems: 'stretch',
     gap: '0',
   },
   canvasHalf: {
-    flex: '1 1 50%',
-    height: '100vh',
+    flex: isMobile ? 'none' : '1 1 50%',
+    height: isMobile ? '50vh' : '100vh',
+    width: isMobile ? '100%' : undefined,
     position: 'relative',
     minWidth: 0,
   },
   contentHalf: {
-    flex: '1 1 50%',
-    padding: '4rem 3rem',
-    maxHeight: '100vh',
+    flex: isMobile ? 'none' : '1 1 50%',
+    padding: isMobile ? '2rem 1.25rem' : '4rem 3rem',
+    maxHeight: isMobile ? 'none' : '100vh',
     overflowY: 'auto',
     minWidth: 0,
     display: 'flex',
@@ -245,11 +262,11 @@ const styles = {
     width: '100%',
     maxWidth: '900px',
     margin: '0 auto',
-    padding: '4rem 2rem',
+    padding: isMobile ? '2rem 1.25rem' : '4rem 2rem',
   },
   sectionTitle: {
     fontFamily: "'Cormorant Garamond', serif",
-    fontSize: '3rem',
+    fontSize: isMobile ? '2rem' : '3rem',
     fontWeight: 300,
     color: '#e8e6ed',
     marginBottom: '1rem',
@@ -257,7 +274,7 @@ const styles = {
   },
   sectionTitleCentered: {
     fontFamily: "'Cormorant Garamond', serif",
-    fontSize: '3rem',
+    fontSize: isMobile ? '2rem' : '3rem',
     fontWeight: 300,
     color: '#e8e6ed',
     marginBottom: '1rem',
@@ -280,11 +297,11 @@ const styles = {
   jhanaList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.25rem',
+    gap: isMobile ? '0.75rem' : '1.25rem',
     marginTop: '1rem',
   },
   jhanaItem: {
-    padding: '1.25rem 1.5rem',
+    padding: isMobile ? '0.85rem 1rem' : '1.25rem 1.5rem',
     background: 'rgba(26, 26, 36, 0.6)',
     borderRadius: '8px',
     transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -357,7 +374,7 @@ const styles = {
   },
   liberationTitle: {
     fontFamily: "'Cormorant Garamond', serif",
-    fontSize: '4.5rem',
+    fontSize: isMobile ? '2.5rem' : '4.5rem',
     fontWeight: 300,
     color: '#e8e6ed',
     letterSpacing: '-0.03em',
@@ -365,7 +382,7 @@ const styles = {
   },
   liberationText: {
     fontFamily: "'Inter', sans-serif",
-    fontSize: '1.1rem',
+    fontSize: isMobile ? '0.95rem' : '1.1rem',
     fontWeight: 300,
     color: '#c0bcc8',
     maxWidth: '600px',
@@ -412,6 +429,6 @@ const styles = {
     color: '#5a5666',
     marginTop: '0.25rem',
   },
-}
+}}
 
 export default App

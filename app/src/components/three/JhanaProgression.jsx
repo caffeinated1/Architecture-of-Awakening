@@ -56,7 +56,8 @@ function JhanaRing({ color, y, tubeRadius, ringRadius, active, index }) {
 // ── Energy beam particles flowing upward between rings ──────────────
 function EnergyStream({ active }) {
   const meshRef = useRef();
-  const count = 300;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const count = isMobile ? 150 : 300;
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const seeds = useMemo(() => {
