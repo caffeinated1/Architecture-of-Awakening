@@ -255,12 +255,13 @@ function SceneContent({ unified }) {
  * @param {object}  style   - optional wrapper styles
  */
 function ConsciousnessField({ unified = false, style }) {
+  const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
   return (
     <div style={{ width: '100%', height: '100%', background: '#080810', ...style }}>
       <Canvas
-        camera={{ position: [6, 5, 6], fov: 50 }}
-        gl={{ antialias: true, alpha: false }}
-        dpr={[1, 2]}
+        camera={{ position: mobile ? [5, 4, 5] : [6, 5, 6], fov: mobile ? 55 : 50 }}
+        gl={{ antialias: !mobile, alpha: false }}
+        dpr={[1, mobile ? 1.5 : 2]}
       >
         <color attach="background" args={['#080810']} />
         <SceneContent unified={unified} />

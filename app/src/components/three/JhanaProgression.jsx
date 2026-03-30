@@ -176,12 +176,13 @@ function SceneContent({ activeJhana = 0, progress = 1 }) {
  * @param {object} style       - optional wrapper styles
  */
 function JhanaProgression({ activeJhana = 0, progress = 1, style }) {
+  const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
   return (
     <div style={{ width: '100%', height: '100%', background: '#050508', ...style }}>
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 50 }}
-        gl={{ antialias: true, alpha: false }}
-        dpr={[1, 2]}
+        camera={{ position: [0, 0, mobile ? 12 : 10], fov: mobile ? 55 : 50 }}
+        gl={{ antialias: !mobile, alpha: false }}
+        dpr={[1, mobile ? 1.5 : 2]}
       >
         <color attach="background" args={['#050508']} />
         <SceneContent activeJhana={activeJhana} progress={progress} />

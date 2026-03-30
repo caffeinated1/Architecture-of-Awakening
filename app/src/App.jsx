@@ -81,13 +81,13 @@ function App() {
             <Canvas
               style={{ background: 'transparent' }}
               camera={{ position: [0, 0, 8], fov: 60 }}
-              dpr={[1, 2]}
+              dpr={[1, isMobile ? 1.5 : 2]}
               gl={{ antialias: true, alpha: true }}
             >
               <Suspense fallback={null}>
                 <ambientLight intensity={0.2} />
                 <pointLight position={[0, 0, 5]} intensity={0.5} color="#c9a55a" />
-                <ParticleField count={1500} color="#c9a55a" radius={6} speed={0.1} pattern="radiate" />
+                <ParticleField count={isMobile ? 600 : 1500} color="#c9a55a" radius={6} speed={0.1} pattern="radiate" />
               </Suspense>
             </Canvas>
           </div>

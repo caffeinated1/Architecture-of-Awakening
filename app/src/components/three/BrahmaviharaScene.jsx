@@ -113,12 +113,13 @@ function SceneContent({ activeIndex = 0, intensity = 1 }) {
  * @param {object} style       - optional inline styles for the wrapper div
  */
 function BrahmaviharaScene({ activeIndex = 0, intensity = 1, style }) {
+  const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
   return (
     <div style={{ width: '100%', height: '100%', background: '#050508', ...style }}>
       <Canvas
-        camera={{ position: [0, 2, 12], fov: 50 }}
-        gl={{ antialias: true, alpha: false }}
-        dpr={[1, 2]}
+        camera={{ position: [0, 2, mobile ? 14 : 12], fov: mobile ? 55 : 50 }}
+        gl={{ antialias: !mobile, alpha: false }}
+        dpr={[1, mobile ? 1.5 : 2]}
       >
         <color attach="background" args={['#050508']} />
         <SceneContent activeIndex={activeIndex} intensity={intensity} />

@@ -261,12 +261,13 @@ function SceneContent({ merged, intensity }) {
  * @param {object}  style     - optional wrapper styles
  */
 function UnifiedField({ merged = false, intensity = 1, style }) {
+  const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
   return (
     <div style={{ width: '100%', height: '100%', background: '#030306', ...style }}>
       <Canvas
-        camera={{ position: [0, 2, 10], fov: 50 }}
-        gl={{ antialias: true, alpha: false }}
-        dpr={[1, 2]}
+        camera={{ position: [0, 2, mobile ? 12 : 10], fov: mobile ? 55 : 50 }}
+        gl={{ antialias: !mobile, alpha: false }}
+        dpr={[1, mobile ? 1.5 : 2]}
       >
         <color attach="background" args={['#030306']} />
         <SceneContent merged={merged} intensity={intensity} />
